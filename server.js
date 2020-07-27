@@ -1,5 +1,5 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+projectData = { postData: [] };
 
 // Require Express to run server and routes
 const express = require('express');
@@ -22,10 +22,32 @@ app.use(express.static('website'));
 
 
 // Setup Server
-const port =8000;
+const port = 8000;
 
 const server = app.listen(port, listening)
-function listening(){
+function listening() {
     //Console server
     console.log(`running on localhost: ${port}`);
 }
+
+/*
+POST Routing for the data received from Web API.
+When server received data from the Web API it will route the data
+*/
+
+app.post('/addData', postWeatherData);
+
+function postWeatherData(req, res) {
+
+    newEntry = {
+        temp: req.body.temp,
+        name: req.body.name,
+        feelings: req.body.feelings,
+        date: req.body.date,
+        icon: req.body.icon
+    }
+    //Inserting data into project data where data is in postdata array 
+    projectData.postData.push(newEntry);
+    res.send(projectData);
+}
+
