@@ -21,18 +21,12 @@ generateButton.addEventListener('click', performAction);
 function performAction() {
     const newZipCode = zip.value;
     const newFeeling = feelings.value;
-    console.log('Dattttaaaaaaaaaaaaaaaaaa');
-    console.log(newZipCode, newFeeling);
     //new syntax
     getWeatherRequest(baseURL, newZipCode, apiKey)
         .then(function (data) {
-            console.log(data)
-            console.log('tttttttttttttttttttttttttttt');
-            console.log(data.main.temp);
-            console.log(data.weather[0].icon)
-            console.log(data.main.temp, data.name, newFeeling, newDate, data.weather[0].icon)
             postData('/addData', { temp: data.main.temp, name: data.name, feelings: newFeeling, date: newDate, icon: data.weather[0].icon })
-
+            updateUI()
+            updateHistoryUI()
         })
 };
 
@@ -66,13 +60,45 @@ const postData = async (url = '/addData', data = {}) => {
     });
     try {
         const newData = await response.json();
-        console.log('ffffffffffffffffffffffffffffffffffffffffffffnewdata');
-        console.log(newData);
         return newData
     } catch (error) {
         console.log("error", error);
     }
 }
+const updateUI = async () => {
+    const request = await fetch('/all');
+    try {
+        const allData = await request.json();
+        const lastItem = allData.postData[allData.postData.length - 1];
+        const temperature = lastItem.temp;
+        const currentIcon = lastItem.icon;
+        document.getElementById('temp').innerHTML = `${temperature}°F`;
+        document.getElementById('date').innerHTML = lastItem.date;
+        document.getElementById("weather__icon").src = `https://openweathermap.org/img/wn/${currentIcon}@2x.png`;
+        document.getElementById('content').innerText = `${lastItem.name},US`;
+        document.getElementById('feeling').innerHTML = `Your feelings now - ${lastItem.feelings}`;
+    } catch (error) {
+        console.log("error", error);
+    }
+}
 
-
+const updateHistoryUI = async () => {
+    const request = await fetch('/all');
+    try {
+        const allData = await request.json();
+        const historyItems = allData.postData.pop();
+        if (allData.postData.length < 2) {
+            document.getElementById('historyHolder').innerHTML = `No Search History to display`;
+        } else {
+            for (let i = 0; i < 5; i++) {
+                console.log(allData.postData[i].name);
+                const letterResult = document.getElementById('historyList');
+                letterResult.innerHTML += "<li>" + allData.postData[i].date + allData.postData[i].name + allData.postData[i].temp + allData.postData[i].feelings + "</li>";
+            }
+        }
+    }
+    catch (error) {
+        console.log("error", error);
+    }
+}
 

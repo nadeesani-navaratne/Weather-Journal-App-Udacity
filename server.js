@@ -26,11 +26,20 @@ const port = 8000;
 
 const server = app.listen(port, listening)
 function listening() {
-    //Console server
-    console.log(`running on localhost: ${port}`);
+  //Console server
+  console.log(`running on localhost: ${port}`);
 }
 
+// Routers setup 
+
+//Get Route
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + 'index.html');
+  res.send(projectData);
+});
+
 /*
+Post Route
 POST Routing for the data received from Web API.
 When server received data from the Web API it will route the data
 */
@@ -39,15 +48,22 @@ app.post('/addData', postWeatherData);
 
 function postWeatherData(req, res) {
 
-    newEntry = {
-        temp: req.body.temp,
-        name: req.body.name,
-        feelings: req.body.feelings,
-        date: req.body.date,
-        icon: req.body.icon
-    }
-    //Inserting data into project data where data is in postdata array 
-    projectData.postData.push(newEntry);
-    res.send(projectData);
+  newEntry = {
+    temp: req.body.temp,
+    name: req.body.name,
+    feelings: req.body.feelings,
+    date: req.body.date,
+    icon: req.body.icon
+  }
+  //Inserting data into project data where data is in postdata array 
+  projectData.postData.push(newEntry);
+  res.send(projectData);
 }
 
+//Get route 
+//To send data back to UI
+app.get('/all', getData)
+
+function getData(req, res) {
+  res.send(projectData);
+}

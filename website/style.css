@@ -1,97 +1,205 @@
-body{
-    background: #fffff8;
+body {
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background-image: url("image/skies.jpg");
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-#app{
+.app {
+    width: 100%;
+    padding: 2px 2px 2px 2px;
+}
+
+#app {
     display: grid;
-    grid-auto-rows: minmax(150px, auto);
-    /* grid-template-columns:  */
-    height:100vh;
-    background: #f23557;
-    color: #f0d43a;
+    /*grid-auto-rows: minmax(150px, auto);*/
+    grid-template-rows: 15% 20% 25% 30% 10%;
+    width: 100vw;
+    height: 100vh;
+    color: green;
     justify-content: center;
-    grid-gap: 1em;
-    font-size: 20px;
+    font-size: 25px;
     font-family: 'Oswald', sans-serif;
+    grid-template-areas: "head head head head" "zip zip zip zip" "fl fl fl fl" "en en en en" "lh lh lh lh";
+    overflow-y: auto;
 }
 
-.holder{
-
-}
-
-.entry{
-    background: rgba(59, 74, 107, .4);
-}
-
-#entryHolder{
-
-}
-
-#date{
-
-}
-
-#temp{
-
-}
-
-#content{
-
+.holder {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .headline {
-
-}
-.title{
-
-}
-
-/*  Basic Styling To Override Default For Basic HTML Elements */
-label{
-    display:block;
-    font-size: 27px;
-}
-
-input{
-    display:block;
-    height: 60px;
-    width: 320px;
-    background:#22b2da;
-    color: #f0d43a;
-    font-size: 20px;
-    font-family: 'Oswald', sans-serif;
-    border: none;
+    grid-area: head;
+    -ms-grid-row-span: 100%;
+    padding-top: 1vh;
+    font-size: 4.5vh;
+    color: rgb(3, 3, 71);
+    text-align: center;
+    font-weight: bold;
+    justify-content: space-around;
+    /*background-color: rgb(253, 253, 115);*/
 }
 
-button{
-    width: 400px;
-    height: 100px;
-    background: #3b4a6b;
-    color: #f0d43a;
-    font-size: 26px;
-    font-family: 'Oswald', sans-serif;
-    border: none;
-    box-shadow: 2px 4px 5px #444;
-}
-h1{
-    font-size: 36px;
+.zip {
+    grid-area: zip;
+    margin-top: 1em;
+    padding-left: 1em;
+    font-size: 3vh;
+    text-align: left;
+    font-weight: bold;
+    color: honeydew;
+    background-color: lightskyblue;
 }
 
-textarea{
-    background:#22b2da;
-    color: #f0d43a;
-    font-size: 20px;
-    font-family: 'Oswald', sans-serif;
+#zip {
+    margin-top: 1em;
+    width: 80%;
+    height: 5vh;
+    line-height: 1vh;
+    text-align: left;
+    font-size: 2vh;
+    border-radius: 7px;
+    padding-left: 1em;
 }
-/* Reset style for HTML element on active to have no border*/
-input:focus,
-select:focus,
-textarea:focus,
-button:focus {
-    outline: none;
+
+.feel {
+    grid-area: fl;
+    padding-left: 1em;
+    font-size: 3vh;
+    text-align: left;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    color: honeydew;
+    background-color: lightskyblue;
 }
-/* Style for Placeholder Text*/
+
+#feelings {
+    padding-top: 1em;
+    margin-top: 1em;
+    width: 80%;
+    height: 7vh;
+    line-height: 1vh;
+    text-align: left;
+    font-size: 2vh;
+    border-radius: 7px;
+    padding-left: 1em;
+}
+
+#generate {
+    height: 4vh;
+    width: 35%;
+    font-weight: bold;
+    color: white;
+    background-color: midnightblue;
+    font-size: 2.5vmin;
+    margin-top: 1em;
+    border-radius: 5px;
+}
+
+.title {
+    grid-area: title;
+    font-weight: bold;
+    font-size: 3vh;
+    color: rgb(6, 9, 49);
+    text-align: center;
+    background-color: rgb(238, 185, 51);
+}
+
+.entry .title {
+    padding-top: 5px;
+}
+
+.entry {
+    grid-area: en;
+    margin-top: 1em;
+    display: grid;
+    grid-template-rows: 20% 65%;
+    grid-template-areas: "title title" "eh eh";
+}
+
+#entryHolder {
+    grid-area: eh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: lightskyblue;
+    flex-wrap: wrap;
+    color: black;
+    overflow: auto;
+}
+
+.history {
+    grid-area: lh;
+    display: grid;
+    grid-template-rows: 30% 70%;
+    grid-template-areas: "title title" "hh hh";
+}
+
+#historyHolder {
+    grid-area: hh;
+    display: flex;
+    flex-direction: row;
+    background-color: lightskyblue;
+    flex-wrap: wrap;
+    color: black;
+    overflow-y: auto;
+}
+
+.history .title {
+    font-size: 2vh;
+}
+
+#temp {
+    font-size: 6vh;
+}
+
+@media (max-width: 600px) {
+    .app {
+        width: 80%;
+        padding: 5px 5px;
+    }
+    .zip {
+        padding-top: 1em;
+        padding-right: 5px;
+    }
+    #entryHolder {
+        justify-content: space-around;
+        align-content: left;
+    }
+    #date {
+        font-size: 4vh;
+        background-color: magenta;
+    }
+    #feeling {
+        font-size: 4vh;
+    }
+    #content {
+        font-size: 4vh;
+    }
+    #temp {
+        padding-top: 1vh;
+        font-size: 5vh;
+    }
+}
+
+@media (max-width: 1024px) {
+    .app {
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    .app{
+        width: 60%;
+        background-color: seagreen;
+    }
+}
+
+* Style for Placeholder Text*/
 ::placeholder { /* Firefox, Chrome, Opera */ 
     color: #f0d43a; 
     font-family: 'Oswald', sans-serif;
