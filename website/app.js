@@ -27,9 +27,14 @@ function performAction() {
             postData('/addData', { temp: data.main.temp, name: data.name, feelings: newFeeling, date: newDate, icon: data.weather[0].icon })
             updateUI()
             updateHistoryUI()
+            resetValues()
         })
 };
 
+function resetValues() {
+    zip.value = "";
+    feelings.value = "";
+}
 
 // Fetching data from Web API and returning data 
 
@@ -77,7 +82,9 @@ const updateUI = async () => {
         document.getElementById("weather__icon").src = `https://openweathermap.org/img/wn/${currentIcon}@2x.png`;
         document.getElementById('content').innerText = `${lastItem.name},US`;
         document.getElementById('feeling').innerHTML = `Your feelings now - ${lastItem.feelings}`;
-    } catch (error) {
+    }
+
+    catch (error) {
         console.log("error", error);
     }
 }
