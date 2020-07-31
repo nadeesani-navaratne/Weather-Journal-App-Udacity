@@ -1,3 +1,4 @@
+
 /* Global Variables */
 const apiKey = 'f86e425f20afd7ad35d40852dc3d5d82';
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?';
@@ -70,10 +71,13 @@ const postData = async (url = '/addData', data = {}) => {
         console.log("error", error);
     }
 }
+
+//Update the UI from fetching the data 
 const updateUI = async () => {
     const request = await fetch('/all');
     try {
         const allData = await request.json();
+        //Recent data will come at the end of the array
         const lastItem = allData.postData[allData.postData.length - 1];
         const temperature = lastItem.temp;
         const currentIcon = lastItem.icon;
@@ -83,29 +87,37 @@ const updateUI = async () => {
         document.getElementById('content').innerText = `${lastItem.name},US`;
         document.getElementById('feeling').innerHTML = `Your feelings now - ${lastItem.feelings}`;
     }
-
     catch (error) {
         console.log("error", error);
     }
 }
 
+//Update history functionality
 const updateHistoryUI = async () => {
     const request = await fetch('/all');
     try {
         const allData = await request.json();
-        const historyItems = allData.postData.pop();
         if (allData.postData.length < 2) {
-            document.getElementById('historyHolder').innerHTML = `No Search History to display`;
+            document.querySelector('#historyHolder').innerHTML = `No Search History to display`;
         } else {
-            for (let i = 0; i < 5; i++) {
-                console.log(allData.postData[i].name);
-                const letterResult = document.getElementById('historyList');
-                letterResult.innerHTML += "<li>" + allData.postData[i].date + allData.postData[i].name + allData.postData[i].temp + allData.postData[i].feelings + "</li>";
+            let list = document.createElement('ul')
+            for (let i = allData.postData.length-2; i >= 0; i--) {
+                let item = document.createElement('li');
+                const text = allData.postData[i].date + allData.postData[i].name + allData.postData[i].temp + allData.postData[i].feelings;
+                item.appendChild(document.createTextNode(text));
+                list.appendChild(item);
+                const maxRecord = 5;
+                if (maxRecord < allData.postData.length) {
+                    i = 0;
+                }
             }
+            document.querySelector('#historyHolder').textContent = "";
+            document.querySelector('#historyHolder').appendChild(list);
         }
     }
     catch (error) {
         console.log("error", error);
     }
 }
+
 
